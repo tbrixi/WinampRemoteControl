@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		>
+
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+
+	<s:navigationContent>
+		<s:Button id="btnBack"
+				  icon="@Embed(source='assets/winamp_32.png')"/>
+	</s:navigationContent>
+
+	<s:titleContent>
+		<s:Label width="100%"
+				 styleName="labelBigBlue"
+				 text="WinAmp Remote Control"
+				 textAlign="center"/>
+	</s:titleContent>
+
+	<s:actionContent>
+		<s:Button id="btnSetup"
+				  icon="@Embed(source='assets/setup.png')"
+				  click="btnSetup_clickHandler(event)"/>
+	</s:actionContent>
+
+
+	<fx:Script>
+		<![CDATA[
+			import models.WinampModel;
+
+			import utils.ValueConverter;
+
+			[Inject]
+			[Bindable]
+			public var model:WinampModel;
+
+			private var btnVolLoaded:Boolean = false;
+
+			public function init():void
+			{
+				if(btnVolLoaded)
+					btnVolume.content["init"](model.volume/100);
+			}
+
+			protected function btnSetup_clickHandler(event:MouseEvent):void
+			{
+				navigator.pushView(views.SetupView);
+			}
+
+			protected function btnVolume_completeHandler(event:Event):void
+			{
+				btnVolLoaded = true;
+			}
+
+
+		]]>
+	</fx:Script>
+
+
+	<fx:Declarations>
+		<s:Fade id="fadeIn" duration="1500" alphaFrom="0.2" alphaTo="1"/>
+		<s:Fade id="fadeOut" duration="10" alphaFrom="1" alphaTo="0.2"/>
+	</fx:Declarations>
+
+	<s:Group width="100%" height="100%">
+
+		<!-- fill -->
+		<s:Rect left="0" right="0" top="0" bottom="0">
+			<s:fill>
+				<s:SolidColor color="0x313131" />
+			</s:fill>
+		</s:Rect>
+
+		<s:VGroup left="10" right="10" top="10" height="100%">
+
+			<s:Spacer height="10"/>
+
+			<s:HGroup width="100%"
+					 horizontalAlign="center">
+
+				<s:SWFLoader id="btnVolume"
+							 width="200" height="200"
+							 horizontalCenter="0" verticalCenter="0"
+							 autoLoad="true"
+							 scaleContent="true"
+							 source="assets/knob.swf"
+							 buttonMode="true"
+							 useHandCursor="true"
+							 showBusyCursor="true"
+							 complete="btnVolume_completeHandler(event)"/>
+
+			</s:HGroup>
+
+			<s:Spacer height="100%"/>
+
+			<s:HGroup width="100%">
+
+				<s:VGroup horizontalAlign="center">
+					<s:Label styleName="labelBlue" text="Shuffle"/>
+					<s:ToggleSwitch id="btnShuffle"
+									selected="{model.shuffleOn}"/>
+				</s:VGroup>
+
+				<s:Spacer width="100%"/>
+
+				<s:VGroup horizontalAlign="center">
+					<s:Label styleName="labelBlue" text="Repeat"/>
+					<s:ToggleSwitch id="btnRepeat"
+									selected="{model.repeatOn}"/>
+				</s:VGroup>
+
+			</s:HGroup>
+
+			<s:Spacer height="100%"/>
+
+			<s:Group width="100%">
+
+				<!-- border -->
+				<s:Rect left="0" right="0" top="0" bottom="0" radiusX="10" radiusY="10" >
+					<s:fill>
+						<s:LinearGradient rotation="90" >
+							<s:GradientEntry color="0x000000" alpha="0.55" />
+							<s:GradientEntry color="0xFFFFFF" alpha="0.55" ratio="0.8" />
+						</s:LinearGradient>
+					</s:fill>
+				</s:Rect>
+
+				<!-- fill -->
+				<s:Rect left="0" right="0" top="1" bottom="1" radiusX="10" radiusY="10">
+					<s:fill>
+						<s:SolidColor color="0x232323" />
+					</s:fill>
+				</s:Rect>
+
+
+
+				<s:VGroup width="100%" height="100%"
+						  paddingLeft="5" paddingTop="5">
+
+					<s:Label width="100%" textAlign="center"
+							 maxDisplayedLines="1"
+							 styleName="labelBigOrange"
+							 text="{model.artist}"/>
+
+					<s:Label width="100%" textAlign="center"
+							 maxDisplayedLines="1"
+							 styleName="labelBigOrange"
+							 text="{model.title}"/>
+
+						<s:Spacer height="10%"/>
+
+					<s:HGroup width="100%">
+
+						<s:Label width="100%"
+								 styleName="labelBigBlueDigit"
+								 text="{ValueConverter.secToHms(model.currentTime)}"/>
+
+						<s:Label width="100%"
+								 textAlign="center"
+								 paddingTop="10"
+								 styleName="labelBlueDigit"
+								 text="{model.playlistPosition}"/>
+
+						<s:Label width="100%"
+								 textAlign="right"
+								 paddingRight="5"
+								 styleName="labelBigBlueDigit"
+								 text="{ValueConverter.secToHms(model.duration)}"/>
+
+					</s:HGroup>
+
+				</s:VGroup>
+
+			</s:Group>
+
+
+			<s:HSlider id="pos" width="100%" height="30"
+					   liveDragging="true"
+					   maximum="{model.duration}" minimum="0" stepSize="1"
+					   value="{model.currentTime}"
+					   dataTipFormatFunction="{ValueConverter.secToHms}"
+					   skinClass="skins.Scrubber"/>
+
+
+			<s:HGroup width="100%" horizontalAlign="center">
+
+				<s:Button id="btnPrev"
+						  styleName="btnPrev"
+						  visible="{model.btnPrevEnable}"
+						  showEffect="fadeIn"
+						  hideEffect="fadeOut"/>
+
+				<s:Button id="btnPlay"
+						  styleName="{model.isPlaying? 'btnPause':'btnPlay'}"
+						  />
+
+				<s:Button id="btnNext"
+						  styleName="btnSkip"
+						  visible="{model.btnNextEnable}"
+						  showEffect="fadeIn"
+						  hideEffect="fadeOut"/>
+
+			</s:HGroup>
+
+			<s:Spacer height="10"/>
+
+
+		</s:VGroup>
+
+	</s:Group>
+
+</s:View>

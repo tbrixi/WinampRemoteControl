@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ViewNavigatorApplication  xmlns:fx="http://ns.adobe.com/mxml/2009"
+							xmlns:s="library://ns.adobe.com/flex/spark"
+							xmlns:rl2="rob http://ns.robotlegs.org/flex/rl2"
+							xmlns:mvcs="robotlegs.bender.bundles.mvcs.*"
+							xmlns:config="config.*"
+							xmlns:rl21="http://ns.robotlegs.org/flex/rl2"													
+							runtimeDPIProvider="CustomRuntimeDPIProvider"
+							firstView="views.WinampView"
+							applicationComplete="init()"
+							>
+
+	<fx:Style source="styles/style.css"/>
+
+
+	<fx:Script>
+		<![CDATA[
+			import events.ApplicationEvent;
+
+			import mx.events.FlexEvent;
+
+			private function init():void
+			{
+				dispatchEvent(new ApplicationEvent(ApplicationEvent.APPLICATION_STARTUP));
+
+				if(Capabilities.cpuArchitecture=="ARM")
+				{
+					NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, handleActivate, false, 0, true);
+					NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, handleDeactivate, false, 0, true);
+					NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, handleKeys, false, 0, true);
+				}
+			}
+
+			private function handleActivate(event:Event):void
+			{
+				NativeApplication.nativeApplication.systemIdleMode = SystemIdleMode.KEEP_AWAKE;
+			}
+
+			private function handleDeactivate(event:Event):void
+			{
+				exit();
+			}
+
+			private function handleKeys(event:KeyboardEvent):void
+			{
+				if(event.keyCode == Keyboard.BACK)
+				{
+					if(navigator.activeView.className == "views.WinampView")
+					{
+						//NativeApplication.nativeApplication.exit();
+					}
+				}
+
+			}
+
+			private function exit():void
+			{
+				//dispatchEvent(new ApplicationEvent(ApplicationEvent.APPLICATION_SHUTDOWN));
+				NativeApplication.nativeApplication.exit();
+			}
+
+		]]>
+	</fx:Script>
+
+
+
+	<fx:Declarations>
+		<rl21:ContextBuilder>
+			<mvcs:MVCSBundle/>
+			<config:AppConfig/>
+		</rl21:ContextBuilder>
+	</fx:Declarations>
+
+</s:ViewNavigatorApplication  >

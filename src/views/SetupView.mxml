@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" title="Setup">
+
+	<fx:Script>
+		<![CDATA[
+			import events.WinampEvent;
+
+			import models.ConfigModel;
+
+			[Inject]
+			[Bindable]
+			public var model:ConfigModel;
+
+			protected function butnSave_clickHandler(event:MouseEvent):void
+			{
+				model.ip = txtIp.text;
+				model.port = txtPort.text;
+				model.password = txtPass.text;
+
+				dispatchEvent(new WinampEvent(WinampEvent.SAVE_SETUP_EVENT));
+
+			}
+		]]>
+	</fx:Script>
+
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+
+	<s:Group width="100%" height="100%">
+
+		<!-- fill -->
+		<s:Rect left="0" right="0" top="0" bottom="0">
+			<s:fill>
+				<s:SolidColor color="0x313131" />
+			</s:fill>
+		</s:Rect>
+
+
+		<s:Label x="10" y="18"
+				 text="Server IP"
+				 styleName="labelBlue"/>
+		<s:TextInput id="txtIp"
+					 y="10" left="80" right="10"
+					 text="{model.ip}"/>
+
+		<s:Label x="10" y="64"
+				 text="Port"
+				 styleName="labelBlue"/>
+		<s:TextInput id="txtPort"
+					 y="54" left="80" right="10"
+					 text="{model.port}"/>
+
+
+		<s:Label x="10" y="109"
+				 text="Pass"
+				 styleName="labelBlue"/>
+		<s:TextInput id="txtPass"
+					 y="99" left="80" right="10"
+					 text="{model.password}"/>
+
+
+		<s:Button y="338" label="Save" click="butnSave_clickHandler(event)" horizontalCenter="0"/>
+
+	</s:Group>
+</s:View>

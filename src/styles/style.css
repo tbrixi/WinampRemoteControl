@@ -1,0 +1,83 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+
+@font-face
+{
+	src: url("assets/fonts/Ds-digib.ttf");
+	fontFamily: DsDigi;
+	embedAsCFF: true;
+}
+
+
+s|Label.labelBlue
+{
+	fontSize: 16;
+	fontWeight: normal;
+	color: #00AAE2;
+}
+
+s|Label.labelBigOrange
+{
+	fontSize: 18;
+	fontWeight: bold;
+	color: #F15A29;
+}
+
+s|Label.labelBigBlue
+{
+	fontSize: 18;
+	fontWeight: bold;
+	color: #00AAE2;
+}
+
+s|Label.labelBlueDigit
+{
+	fontFamily: DsDigi;
+	fontSize: 16;
+	color: #00AAE2;
+}
+
+s|Label.labelBigBlueDigit
+{
+	fontFamily: DsDigi;
+	fontSize: 32;
+	color: #00AAE2;
+}
+
+s|TextArea.loger
+{
+	fontSize: 12;
+	fontWeight: normal;
+	color: #00AAE2;
+}
+
+
+
+s|Button.btnPlay
+{
+	skinClass: ClassReference("skins.BtnPlay");
+}
+
+s|Button.btnPause
+{
+	skinClass: ClassReference("skins.BtnPause");
+}
+
+s|Button.btnSkip
+{
+	skinClass: ClassReference("skins.BtnSkip");
+}
+
+s|Button.btnPrev
+{
+	skinClass: ClassReference("skins.BtnPrev");
+}
+
+
+
+
+global
+{
+	content-background-color: #313131;
+	content-background-alpha: 0.62;
+}
