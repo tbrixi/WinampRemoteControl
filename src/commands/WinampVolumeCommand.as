@@ -24,8 +24,8 @@ package commands
 
 				case WinampEvent.SET_VOLUME_EVENT:
 				{
+					trace("WinampSetVolume, vol: "+winampModel.volume);
 					var vol:int = winampModel.volume * 255 / 100;
-					trace("WinampSetCommand, vol: "+vol);
 					urlRequest.url = "http://" + configModel.ip + ":" + configModel.port + "/" + "setvolume" +"?p=" + configModel.password + "&level=" + vol;
 					urlLoader.load(urlRequest);
 					break;

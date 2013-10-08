@@ -18,6 +18,7 @@ package events
 		//public static const SET_VOLUME_UP_EVENT: String = "volumeUpEvent";
 		public static const GET_VOLUME_EVENT: String = "getVolumeEvent";
 		public static const SET_VOLUME_EVENT: String = "setVolumeEvent";
+		public static const VOLUME_CHANGE_EVENT: String = "volumeChaneEvent";
 
 		public static const GET_CURRENT_TIME_EVENT: String = "getCurrentTimeEvent";
 		public static const GET_DURATION_EVENT: String = "getDurationEvent";

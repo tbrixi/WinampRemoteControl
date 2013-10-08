@@ -22,7 +22,7 @@ package models
 		public var artist:String = "Artist";
 		public var title:String = "Title";
 
-		public var volume:uint = 90; // 0-100 %
+		private var _volume:int = 0; // 0-100 %
 		public var volVisible:Boolean = false;
 
 
@@ -40,6 +40,20 @@ package models
 			timer = new Timer(1000,0);
 			timer.addEventListener(TimerEvent.TIMER, onTimer);
 		}
+
+
+		public function set volume(value:int):void
+		{
+			_volume = value;
+			dispatcher.dispatchEvent(new WinampEvent(WinampEvent.VOLUME_CHANGE_EVENT));
+		}
+
+		public function get volume():int
+		{
+			return _volume;
+		}
+
+
 
 		public function timerStart():void
 		{
@@ -66,6 +80,8 @@ package models
 		{
 			dispatcher.dispatchEvent(new WinampEvent(WinampEvent.REFRESH_EVENT));
 		}
+
+
 
 //		public function onPlay():void
 //		{

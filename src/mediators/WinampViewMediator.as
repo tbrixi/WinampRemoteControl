@@ -28,12 +28,11 @@ package mediators
 		{
 			injector.injectInto(view);
 
-			view.init();
-
 			view.btnPlay.addEventListener(MouseEvent.CLICK, onPlayPauseEvent);
 			view.btnNext.addEventListener(MouseEvent.CLICK, onNextEvent);
 			view.btnPrev.addEventListener(MouseEvent.CLICK, onPrevEvent);
 
+			winampModel.dispatcher.addEventListener(WinampEvent.VOLUME_CHANGE_EVENT, onVol);
 			eventMap.mapListener(view.btnVolume.content, 'volumeKnobEvent', onVolEvent);
 
 			view.btnShuffle.addEventListener(Event.CHANGE, onShuffleEvent);
@@ -46,6 +45,8 @@ package mediators
 		{
 			eventDispatcher.dispatchEvent(new WinampEvent(WinampEvent.REFRESH_EVENT));
 		}
+
+
 
 		private function onPlayPauseEvent(event:MouseEvent):void
 		{
@@ -67,13 +68,6 @@ package mediators
 			eventDispatcher.dispatchEvent(new WinampEvent(WinampEvent.PREV_EVENT));
 		}
 
-		private function onVolEvent(event:Event):void
-		{
-			var vol:Number = event.target.vol;
-			winampModel.volume = vol*100;
-			eventDispatcher.dispatchEvent(new WinampEvent(WinampEvent.SET_VOLUME_EVENT));
-		}
-
 		private function onShuffleEvent(event:Event):void
 		{
 			winampModel.shuffleOn = !winampModel.shuffleOn;
@@ -84,6 +78,19 @@ package mediators
 		{
 			winampModel.repeatOn = !winampModel.repeatOn;
 			eventDispatcher.dispatchEvent(new WinampEvent(WinampEvent.SET_REPEAT_EVENT));
+		}
+
+
+		private function onVol(event:WinampEvent):void
+		{
+			view.setVol();
+		}
+
+		private function onVolEvent(event:Event):void
+		{
+			var vol:Number = event.target.vol;
+			winampModel.volume = vol*100;
+			eventDispatcher.dispatchEvent(new WinampEvent(WinampEvent.SET_VOLUME_EVENT));
 		}
 	}
 }

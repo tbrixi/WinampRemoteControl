@@ -38,11 +38,11 @@
 
 			private var btnVolLoaded:Boolean = false;
 
-			public function init():void
-			{
-				if(btnVolLoaded)
-					btnVolume.content["init"](model.volume/100);
-			}
+//			public function init():void
+//			{
+//				if(btnVolLoaded)
+//					btnVolume.content["init"](model.volume/100);
+//			}
 
 			protected function btnSetup_clickHandler(event:MouseEvent):void
 			{
@@ -52,6 +52,11 @@
 			protected function btnVolume_completeHandler(event:Event):void
 			{
 				btnVolLoaded = true;
+			}
+
+			public function setVol():void
+			{
+				btnVolume.content["init"](model.volume/100);
 			}
 
 
